@@ -154,18 +154,20 @@ var renderItem = function (arr) {
   var nutritionFactsContents = arr.nutritionFacts.contents;
 
   var catalogCard = CARD_TEMPLATE.querySelector('.catalog__card').cloneNode(true);
+  var cardPrice = catalogCard.querySelector('.card__price');
   var starsRating = catalogCard.querySelector('.stars__rating');
   catalogCard.querySelector('.card__img').src = picture;
-
-  catalogCard.querySelector('.card__weight').textContent = weight;
-  catalogCard.querySelector('.card__price').textContent = price;
   catalogCard.querySelector('.star__count').textContent = ratingNumber;
   catalogCard.querySelector('.card__title').textContent = name;
   catalogCard.querySelector('.card__characteristic').textContent = nutritionFactsSugar === true ? 'Содержит сахар' : 'Без сахара';
   catalogCard.querySelector('.card__composition-list').textContent = nutritionFactsContents;
+  cardPrice.innerHTML = price +
+    '<span class="card__currency"> ₽</span>' +
+    '<span class="card__weight">/' + weight + ' Г</span>';
 
   // устанавливаем рейтинг в зависимости от rating.value
   var starsClass = function (string) {
+    starsRating.classList.remove('stars__rating--five');
     return starsRating.classList.add('stars__rating--' + string);
   };
   switch (ratingValue) {
