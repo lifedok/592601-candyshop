@@ -238,9 +238,13 @@ var basketItem = function (arr) {
 // отрисовка шаблона элемента корзины в DOM
 var NEW_ID;
 var getBasketItemList = function (id) {
+  NEW_ID = id;
+  // console.log('NEW_ID 1 ==>', NEW_ID, id);
+
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < goods.length; i++) {
     if (i === id) {
+      // console.log('NEW_ID 2 ==>', NEW_ID, id, i);
       getBasketItems(id);
       fragment.appendChild(basketItem(goods[i]));
     }
@@ -288,6 +292,11 @@ var TOTAL_ITEM_BASKET = 0;
 document.querySelectorAll('.card__btn').forEach(function (item, index) {
   item.addEventListener('click', function (evt) {
     evt.preventDefault();
+    evt.stopPropagation();
+
+    // console.log('goods', goods);
+    // console.log('goods', basketGoods);
+
     if (goods[index].amounts !== 0) {
       goods[index].countSelectItem += 1;
       goods[index].amounts -= 1;
@@ -303,11 +312,26 @@ document.querySelectorAll('.card__btn').forEach(function (item, index) {
   });
 });
 
-// удаление из корзины - не доделано
+// удаление из корзины - сделано, но не сортирует по одному типу
 document.querySelectorAll('.card-order__close').forEach(function (item, index) {
   item.addEventListener('click', function (evt) {
     evt.preventDefault();
-    getBasketItemList(basketGoods, index);
+
+    // console.log('basketGoods', basketGoods);
+    // console.log('goods[index].amounts', basketGoods[index].amounts);
+    if (basketGoods[index].amounts !== 0) {
+      goods[index].countSelectItem -= 1;
+      goods[index].amounts += 1;
+      getBasketItemList(index);
+
+
+      TOTAL_ITEM_BASKET -= 1;
+      HEADER_BASKET.innerText = TOTAL_ITEM_BASKET;
+      if (goods[index].amounts === 0) {
+        item.style.background = '#ffdd21';
+        item.style.cursor = 'pointer';
+      }
+    }
   });
 });
 
@@ -332,5 +356,56 @@ DELIVERY_COURIER.addEventListener('click', function () {
 });
 
 // процесс перетаскивания, работа с фильтрами.
+var MAX_PRICE = 300;
+var RANGE_FILTER = document.querySelector('.range__filter');
+var BTN_RANGE = RANGE_FILTER.querySelector('.range__btn');
+var BTN_LEFT = RANGE_FILTER.querySelector('.range__btn--left');
+var BTN_RIGHT = RANGE_FILTER.querySelector('.range__btn--right');
+var RANGE_FILL_LINE = RANGE_FILTER.querySelector('.range__fill-line');
+
+var RANGE_PRICES = document.querySelector('.range__prices');
+var PRICE_MIN = RANGE_PRICES.querySelector('.range__price--min');
+var PRICE_MAX = RANGE_PRICES.querySelector('.range__price--max');
 
 
+var relationPositionX = function (number) {
+  var widthFilter = RANGE_FILTER.offsetWidth;
+  var widthBtn = BTN_RANGE.offsetWidth;
+  var rangaFilterX1 = RANGE_FILTER.offsetLeft;
+  var trackRight = widthFilter + widthBtn / 2;
+  var shift = number - widthBtn / 2 - rangaFilterX1;
+  var leftX;
+
+  if (shift > 0 && shift < widthFilter) {
+    leftX = shift / widthFilter * 100;
+  } else if (shift < 0) {
+    leftX = 0;
+  } else if (shift < widthFilter) {
+    leftX = parseInt(trackRight, 10);
+  }
+  return leftX;
+};
+
+var relationPrice = function (value) {
+  return Math.round(value * MAX_PRICE / 100);
+};
+
+
+var newX;
+BTN_LEFT.addEventListener('mouseup', function (evt) {
+  evt.preventDefault();
+
+  newX = evt.clientX;
+  BTN_LEFT.style.left = relationPositionX(newX) + '%';
+  RANGE_FILL_LINE.style.left = relationPositionX(newX) + '%';
+  PRICE_MIN.textContent = relationPrice(relationPositionX(newX));
+
+});
+BTN_RIGHT.addEventListener('mouseup', function (evt) {
+  evt.preventDefault();
+  newX = evt.clientX;
+
+  BTN_RIGHT.style.left = relationPositionX(newX) + '%';
+  RANGE_FILL_LINE.style.right = (100 - relationPositionX(newX)) + '%';
+  PRICE_MAX.textContent = relationPrice(relationPositionX(newX));
+});
