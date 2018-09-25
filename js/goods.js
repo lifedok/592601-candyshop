@@ -335,11 +335,10 @@ document.querySelectorAll('.card-order__close').forEach(function (item, index) {
   });
 });
 
-
+// ПЕРЕКЛЮЧАТЕЛЬ ТАБОВ ДОСТАВКИ
 // Привязаться к id таба
 var DELIVERY_STORE = document.getElementById('deliver__store');
 var DELIVERY_COURIER = document.getElementById('deliver__courier');
-// Законсолить, узнать, какой таб включен
 var DELIVERY_STORE_BLOCK = document.querySelector('.deliver__store');
 var DELIVERY_COURIER_BLOCK = document.querySelector('.deliver__courier');
 
@@ -351,8 +350,27 @@ DELIVERY_STORE.addEventListener('click', function () {
 });
 
 DELIVERY_COURIER.addEventListener('click', function () {
-  DELIVERY_COURIER_BLOCK.classList.add('visually-hidden');
   DELIVERY_STORE_BLOCK.classList.remove('visually-hidden');
+  DELIVERY_COURIER_BLOCK.classList.add('visually-hidden');
+});
+
+// ПЕРЕКЛЮЧАТЕЛЬ ТАБОВ ОПЛАТЫ
+// Привязаться к id таба
+var PAYMENT_CARD = document.getElementById('payment__card');
+var PAYMENT_CASH = document.getElementById('payment__cash');
+var PAYMENT_CARD_BLOCK = document.querySelector('.payment__card-wrap');
+var PAYMENT_CASH_BLOCK = document.querySelector('.payment__cash-wrap');
+
+PAYMENT_CARD.checked = true;
+PAYMENT_CASH.checked = false;
+PAYMENT_CASH.addEventListener('click', function () {
+  PAYMENT_CARD_BLOCK.classList.add('visually-hidden');
+  PAYMENT_CASH_BLOCK.classList.remove('visually-hidden');
+});
+
+PAYMENT_CARD.addEventListener('click', function () {
+  PAYMENT_CARD_BLOCK.classList.remove('visually-hidden');
+  PAYMENT_CASH_BLOCK.classList.add('visually-hidden');
 });
 
 // процесс перетаскивания, работа с фильтрами.
