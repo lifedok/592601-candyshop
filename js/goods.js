@@ -238,20 +238,51 @@ var basketItem = function (arr) {
 // отрисовка шаблона элемента корзины в DOM
 var NEW_ID;
 var getBasketItemList = function (id) {
-  NEW_ID = id;
-  // console.log('NEW_ID 1 ==>', NEW_ID, id);
-
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < goods.length; i++) {
-    if (i === id) {
-      // console.log('NEW_ID 2 ==>', NEW_ID, id, i);
-      getBasketItems(id);
-      fragment.appendChild(basketItem(goods[i]));
+  // console.log('goods', goods);
+  // console.log('basketGoods', basketGoods);
+
+
+  if (basketGoods.length < 1) {
+    getBasketItems(id);
+    fragment.appendChild(basketItem(goods[id]));
+  } else {
+    // Если корзина не пустая, то:
+    var basketId;
+    for (var i = 0; i < basketGoods.length; i++) {
+      // console.log('basketId', basketGoods[i]);
+
+      if (basketGoods[i].id === id) {
+        // console.log('id, basketId ---', id, basketGoods[i]);
+
+        basketId = i;
+        if (basketGoods[i].countItem < 1) {
+          getBasketItems(id);
+          fragment.appendChild(basketItem(goods[id]));
+        }
+        if (basketGoods[i].countItem > 1) {
+          // console.log('basketGoods[i].countItem', basketGoods[i].countItem);
+          // console.log('basketId', basketGoods[basketId].countItem);
+
+          // getBasketCountItem();
+          basketGoods[i].countItem = goods[id].countSelectItem;
+          // console.log('basketGoods[i].countItem', basketGoods[i].countItem);
+          fragment.appendChild(basketItem(goods[id]));
+        }
+      } else {
+        // console.log('tresh');
+      }
     }
   }
   onHiddenEmptyBlock();
   GOODS_CARDS.appendChild(fragment);
 };
+
+// var getBasketCountItem = function () {
+//   for (var i = 0; i < goods.length; i++) {
+//     basketGoods[i].countItem = goods[i].countSelectItem;
+//   }
+// };
 
 // добавление объекта данных в корзину
 var getBasketItems = function (id) {
@@ -276,7 +307,6 @@ var getBasketItems = function (id) {
     }
   }
 };
-
 
 // Добавление выбранного товара в избранное
 document.querySelectorAll('.card__btn-favorite').forEach(function (item) {
@@ -311,8 +341,6 @@ document.querySelectorAll('.card__btn').forEach(function (item, index) {
   item.addEventListener('click', function (evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    // console.log('goods', goods);
-    // console.log('goods', basketGoods);
 
     if (goods[index].amounts !== 0) {
       goods[index].countSelectItem += 1;
