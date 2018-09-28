@@ -248,14 +248,14 @@ var getBasketItemList = function (id) {
     fragment.appendChild(basketItem(goods[id]));
   } else {
     // Если корзина не пустая, то:
-    var basketId;
+    // var basketId;
     for (var i = 0; i < basketGoods.length; i++) {
       // console.log('basketId', basketGoods[i]);
 
       if (basketGoods[i].id === id) {
         // console.log('id, basketId ---', id, basketGoods[i]);
 
-        basketId = i;
+        // basketId = i;
         if (basketGoods[i].countItem < 1) {
           getBasketItems(id);
           fragment.appendChild(basketItem(goods[id]));
