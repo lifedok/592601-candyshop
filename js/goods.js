@@ -276,8 +276,9 @@ var renderItem = function (item) {
       }
     }
 
-    if (!addToCard || basketGoods[i].selected < 1) {
+    if (!addToCard) {
       console.log('basketGoods ==== true', basketGoods);
+      console.log('addToCard', addToCard);
 
       basketGoods.push({
         id: itemId,
@@ -285,8 +286,9 @@ var renderItem = function (item) {
         selected: 1,
         price: item.price
       });
-    } else {
+    } else if (addToCard) {
       console.log('basketGoods', basketGoods);
+      console.log('addToCard', addToCard);
 
       if (basketGoods[i].selected < basketGoods[i].allInStock) {
         basketGoods[i].selected += 1;
@@ -368,6 +370,7 @@ var declination = function (number) {
 // отрисовка элемента корзины
 var renderBasketItem = function (item) {
   var catalogBasketCard = CARD_BASKET_TEMPLATE.cloneNode(true);
+  var closeButton = catalogBasketCard.querySelector('.card-order__close');
 
   var index = null;
   for (var i = 0; i < goods.length; i++) {
@@ -383,8 +386,29 @@ var renderBasketItem = function (item) {
   catalogBasketCard.querySelector('.card-order__count').value = item.selected;
 
 
+  closeButton.addEventListener('click', function () {
+    // удалить элемент из массива basketGoods
+    basketGoods.length = basketGoods.length - 1;
+
+    if (basketGoods.length === 0) {
+      GOODS_CARD_EMPTY.classList.remove('visually-hidden');
+    }
+  });
+
   BASKET_GOODS_CARDS.appendChild(catalogBasketCard);
 };
+
+
+BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  var target = evt.target.closest('.card-order__close');
+  if (target === null) {
+    return;
+  }
+  var targetCard = evt.target.closest('.card-order');
+  BASKET_GOODS_CARDS.removeChild(targetCard);
+  changeHeaderForSelectedBasket();
+});
 
 // Переключатель отображения состава
 document.querySelectorAll('.card__main').forEach(function (item) {
