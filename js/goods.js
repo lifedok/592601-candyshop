@@ -269,16 +269,14 @@ var renderItem = function (item) {
 
     for (var i = 0; i < basketGoods.length; i++) {
       if (basketGoods[i].id === itemId) {
-        console.log('basketGoods true', basketGoods[i].id, itemId);
-
         addToCard = true;
         break;
       }
     }
 
     if (!addToCard) {
-      console.log('basketGoods ==== true', basketGoods);
-      console.log('addToCard', addToCard);
+      // console.log('basketGoods ==== true', basketGoods);
+      // console.log('addToCard', addToCard);
 
       basketGoods.push({
         id: itemId,
@@ -287,18 +285,19 @@ var renderItem = function (item) {
         price: item.price
       });
     } else if (addToCard) {
-      console.log('basketGoods', basketGoods);
-      console.log('addToCard', addToCard);
+      // console.log('basketGoods', basketGoods);
+      // console.log('addToCard', addToCard);
 
       if (basketGoods[i].selected < basketGoods[i].allInStock) {
         basketGoods[i].selected += 1;
+        goods[i].amounts -= 1;
         if (basketGoods[i].selected === basketGoods[i].allInStock) {
           disabledItem(itemId);
         }
       } else {
-        console.log('item', item);
-        console.log('basketGoods', basketGoods);
-        console.log('goods', goods);
+        // console.log('item', item);
+        // console.log('basketGoods', basketGoods);
+        // console.log('goods', goods);
         disabledItem(itemId);
       }
     }
@@ -320,8 +319,8 @@ var disabledItem = function (id) {
 };
 
 
-console.log('goods', goods);
-console.log('basketGoods', basketGoods);
+// console.log('goods', goods);
+// console.log('basketGoods', basketGoods);
 
 var getItemList = function () {
   var fragment = document.createDocumentFragment();
@@ -401,14 +400,14 @@ var renderBasketItem = function (item) {
 BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   evt.preventDefault();
   evt.stopPropagation();
-  console.log('evt', evt);
+  // console.log('evt', evt);
   var target = evt.target.closest('.card-order__close');
   if (target === null) {
     return;
   }
 
   var targetCard = evt.target.closest('.card-order');
-  console.log('targetCard', targetCard);
+  // console.log('targetCard', targetCard);
 
   BASKET_GOODS_CARDS.removeChild(targetCard);
   changeHeaderForSelectedBasket();
@@ -429,9 +428,10 @@ BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   var target = evt.target.closest('.card-order__btn--decrease');
   var value = evt.target.closest('.card-order__amount').querySelector('.card-order__count');
 
-  console.log('basketGoods', basketGoods);
-  console.log('value', value);
-  console.log('target1', target);
+  // console.log('goods', goods);
+  // console.log('basketGoods', basketGoods);
+  // console.log('value', value);
+  // console.log('target1', target);
   if (target === null) {
     return;
   } else if (value.value > 1) {
@@ -450,8 +450,8 @@ BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   var card = evt.target.closest('.card-order__amount');
   var value = card.querySelector('.card-order__count');
 
-  console.log('basketGoods', basketGoods);
-  console.log('target2', target);
+  // console.log('basketGoods', basketGoods);
+  // console.log('target2', target);
   if (target === null) {
     return;
   }
