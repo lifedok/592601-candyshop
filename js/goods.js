@@ -275,9 +275,6 @@ var renderItem = function (item) {
     }
 
     if (!addToCard) {
-      // console.log('basketGoods ==== true', basketGoods);
-      // console.log('addToCard', addToCard);
-
       basketGoods.push({
         id: itemId,
         allInStock: item.amounts,
@@ -285,9 +282,6 @@ var renderItem = function (item) {
         price: item.price
       });
     } else if (addToCard) {
-      // console.log('basketGoods', basketGoods);
-      // console.log('addToCard', addToCard);
-
       if (basketGoods[i].selected < basketGoods[i].allInStock) {
         basketGoods[i].selected += 1;
         goods[i].amounts -= 1;
@@ -295,9 +289,6 @@ var renderItem = function (item) {
           disabledItem(itemId);
         }
       } else {
-        // console.log('item', item);
-        // console.log('basketGoods', basketGoods);
-        // console.log('goods', goods);
         disabledItem(itemId);
       }
     }
@@ -318,10 +309,6 @@ var disabledItem = function (id) {
   });
 };
 
-
-// console.log('goods', goods);
-// console.log('basketGoods', basketGoods);
-
 var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
 var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
 var GOODS_CARD_EMPTY = document.querySelector('.goods__card-empty');
@@ -335,6 +322,11 @@ var getItemList = function () {
 };
 getItemList();
 
+// var CARD_EMPTY_TEMPLATE = document.querySelector('#cards-empty').content.cloneNode(true);
+// var onVisibleEmptyBlock = function () {
+//   var cardEmpty = CARD_EMPTY_TEMPLATE.querySelector('.goods__card-empty');
+//   BASKET_GOODS_CARDS.appendChild(cardEmpty);
+// };
 var onHiddenEmptyBlock = function () {
   BASKET_GOODS_CARDS.innerHTML = '';
   BASKET_GOODS_CARDS.classList.remove('goods__cards--empty');
@@ -366,6 +358,43 @@ var declination = function (number) {
   return string;
 };
 
+// Увеличение количества товаров в корзине
+var increase = function () {
+  BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    var target = evt.target.closest('.card-order__btn--increase');
+    var value = evt.target.closest('.card-order__amount').querySelector('.card-order__count');
+
+    if (target === null) {
+      return;
+    }
+    value.value++;
+    // var increaseDisable = function (id) {
+    //   value.value = id;
+    // };
+  });
+};
+increase();
+
+// Уменьшение количества товаров в корзине
+var decrease = function () {
+  BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
+    var target = evt.target.closest('.card-order__btn--decrease');
+    var value = evt.target.closest('.card-order__amount').querySelector('.card-order__count');
+
+    if (target === null) {
+      return;
+    } else if (value.value > 1) {
+      value.value--;
+    } else {
+      var targetCard = evt.target.closest('.card-order');
+      BASKET_GOODS_CARDS.removeChild(targetCard);
+    }
+  });
+};
+decrease();
+
 // отрисовка элемента корзины
 var renderBasketItem = function (item) {
   var catalogBasketCard = CARD_BASKET_TEMPLATE.cloneNode(true);
@@ -393,6 +422,34 @@ var renderBasketItem = function (item) {
     }
   });
 
+  var btnDecrease = catalogBasketCard.querySelector('.card-order__btn--decrease');
+  var btnIncrease = catalogBasketCard.querySelector('.card-order__btn--increase');
+
+  btnIncrease.addEventListener('click', function () {
+    basketGoods.forEach(function (itemElement) {
+      if (itemElement.id === index) {
+        if (itemElement.selected < itemElement.allInStock) {
+          itemElement.selected += 1;
+          changeHeaderForSelectedBasket();
+        } else if (itemElement.selected === itemElement.allInStock) {
+          // console.log('max selected');
+        }
+      }
+    });
+  });
+  btnDecrease.addEventListener('click', function () {
+    basketGoods.forEach(function (itemElement) {
+      if (itemElement.id === index) {
+        if (itemElement.selected < itemElement.allInStock) {
+          itemElement.selected -= 1;
+          changeHeaderForSelectedBasket();
+        } else if (itemElement.selected === itemElement.allInStock) {
+          // console.log('min selected');
+        }
+      }
+    });
+  });
+
   BASKET_GOODS_CARDS.appendChild(catalogBasketCard);
 };
 
@@ -400,15 +457,12 @@ var renderBasketItem = function (item) {
 BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   evt.preventDefault();
   evt.stopPropagation();
-  // console.log('evt', evt);
   var target = evt.target.closest('.card-order__close');
   if (target === null) {
     return;
   }
 
   var targetCard = evt.target.closest('.card-order');
-  // console.log('targetCard', targetCard);
-
   BASKET_GOODS_CARDS.removeChild(targetCard);
   changeHeaderForSelectedBasket();
 });
@@ -419,51 +473,6 @@ document.querySelectorAll('.card__main').forEach(function (item) {
     evt.preventDefault();
     item.querySelector('.card__composition').classList.toggle('card__composition--hidden');
   });
-});
-
-// Уменьшает количество товаров в корзине
-BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
-  evt.preventDefault();
-  evt.stopPropagation();
-  var target = evt.target.closest('.card-order__btn--decrease');
-  var value = evt.target.closest('.card-order__amount').querySelector('.card-order__count');
-
-  // console.log('goods', goods);
-  // console.log('basketGoods', basketGoods);
-  // console.log('value', value);
-  // console.log('target1', target);
-  if (target === null) {
-    return;
-  } else if (value.value > 1) {
-    value.value--;
-  } else {
-    var targetCard = evt.target.closest('.card-order');
-    // console.log('target1', targetCard);
-
-    BASKET_GOODS_CARDS.removeChild(targetCard);
-  }
-  // console.log('goods', goods);
-  // console.log('basketGoods', basketGoods);
-  // console.log('value', value);
-  // console.log('target1', target);
-});
-
-// Увеличивает количество товаров в корзине
-BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
-  evt.preventDefault();
-  evt.stopPropagation();
-  var target = evt.target.closest('.card-order__btn--increase');
-  var card = evt.target.closest('.card-order__amount');
-  var value = card.querySelector('.card-order__count');
-
-  // console.log('basketGoods', basketGoods);
-  // console.log('evt', evt);
-  if (target === null) {
-    return;
-  }
-  value.value++;
-  // console.log('basketGoods', basketGoods);
-  // console.log('target2', target);
 });
 
 
