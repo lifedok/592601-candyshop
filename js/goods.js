@@ -400,7 +400,7 @@ var renderBasketItem = function (item) {
 BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   evt.preventDefault();
   evt.stopPropagation();
-  console.log('evt', evt);
+  // console.log('evt', evt);
   var target = evt.target.closest('.card-order__close');
   if (target === null) {
     return;
@@ -438,8 +438,14 @@ BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
     value.value--;
   } else {
     var targetCard = evt.target.closest('.card-order');
+    // console.log('target1', targetCard);
+
     BASKET_GOODS_CARDS.removeChild(targetCard);
   }
+  // console.log('goods', goods);
+  // console.log('basketGoods', basketGoods);
+  // console.log('value', value);
+  // console.log('target1', target);
 });
 
 // Увеличивает количество товаров в корзине
@@ -451,12 +457,13 @@ BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   var value = card.querySelector('.card-order__count');
 
   // console.log('basketGoods', basketGoods);
-  // console.log('target2', target);
+  // console.log('evt', evt);
   if (target === null) {
     return;
   }
   value.value++;
-
+  // console.log('basketGoods', basketGoods);
+  // console.log('target2', target);
 });
 
 
