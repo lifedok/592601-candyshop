@@ -322,6 +322,10 @@ var disabledItem = function (id) {
 // console.log('goods', goods);
 // console.log('basketGoods', basketGoods);
 
+var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
+var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
+var GOODS_CARD_EMPTY = document.querySelector('.goods__card-empty');
+
 var getItemList = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < goods.length; i++) {
@@ -332,6 +336,7 @@ var getItemList = function () {
 getItemList();
 
 var onHiddenEmptyBlock = function () {
+  BASKET_GOODS_CARDS.innerHTML = '';
   BASKET_GOODS_CARDS.classList.remove('goods__cards--empty');
   GOODS_CARD_EMPTY.classList.add('visually-hidden');
 };
@@ -343,11 +348,6 @@ var renderBasketList = function () {
 
   changeHeaderForSelectedBasket();
 };
-
-var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
-
-var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
-var GOODS_CARD_EMPTY = document.querySelector('.goods__card-empty');
 
 var declination = function (number) {
   var num = Math.abs(number);
@@ -400,7 +400,7 @@ var renderBasketItem = function (item) {
 BASKET_GOODS_CARDS.addEventListener('click', function (evt) {
   evt.preventDefault();
   evt.stopPropagation();
-  // console.log('evt', evt);
+  console.log('evt', evt);
   var target = evt.target.closest('.card-order__close');
   if (target === null) {
     return;
