@@ -175,17 +175,33 @@
 
               <ul class="contact-data__inputs">
                 <li class="text-input contact-data__input-wrap">
-                  <input type="text" class="text-input__input" name="name" id="contact-data__name" placeholder="Имя">
+                  <input type="text"
+                         class="text-input__input"
+                         name="name"
+                         id="contact-data__name"
+                         placeholder="Имя"
+                         required>
                   <label for="contact-data__name" class="text-input__label">Имя</label>
                 </li>
 
                 <li class="text-input contact-data__input-wrap">
-                  <input type="text" class="text-input__input" name="tel" id="contact-data__tel" placeholder="Телефон">
+                  <input type="text"
+                         class="text-input__input"
+                         name="tel"
+                         id="contact-data__tel"
+                         placeholder="Телефон"
+                         required
+                         minlength="7" maxlength="18" >
                   <label for="contact-data__tel" class="text-input__label">Телефон</label>
                 </li>
 
                 <li class="text-input contact-data__input-wrap">
-                  <input type="text" class="text-input__input" name="email" id="contact-data__email" placeholder="Почта">
+                  <input type="email"
+                         class="text-input__input"
+                         name="email"
+                         id="contact-data__email"
+                         placeholder="Почта"
+                         required>
                   <label for="contact-data__email" class="text-input__label">Почта</label>
                 </li>
 
@@ -223,7 +239,7 @@
                              required maxlength="16" minlength="16"
                              autocomplete="off"
                              spellcheck="false"
-                             pattern="[0-9]">
+                             pattern=[0-9]{16}>
                       <label class="text-input__label" for="payment__card-number">Номер карты</label>
                     </p>
 
@@ -234,7 +250,7 @@
                              id="payment__card-date"
                              placeholder="мм/гг"
                              required minlength="5" maxlength="5"
-                             pattern="[0-9]{2}/[0-9]{2}">
+                             pattern=[0-1]{1}[0-9]{1}/[0-1]{1}[0-9]{1}>
                       <label class="text-input__label" for="payment__card-date">мм/гг</label>
                     </p>
 
@@ -245,7 +261,7 @@
                              id="payment__card-cvc"
                              placeholder="CVC"
                              required minlength="3" maxlength="3"
-                             pattern="[0-9]{3}">
+                             pattern=[0-9]{3}>
                       <label class="text-input__label text-input__label--lock" for="payment__card-cvc">CVC</label>
                     </p>
 
@@ -258,7 +274,7 @@
                              id="payment__cardholder"
                              placeholder="ИМЯ ДЕРЖАТЕЛЯ"
                              required
-                             pattern="[a-zA-Z]">
+                             pattern="^[a-zA-Z]+$">
                       <label class="text-input__label" for="payment__cardholder">ИМЯ ДЕРЖАТЕЛЯ</label>
                     </p>
 
