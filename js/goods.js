@@ -578,21 +578,80 @@ var CARD_CVC = PAYMENT.querySelector('#payment__card-cvc');
 var CARD_HOLDER = PAYMENT.querySelector('#payment__cardholder');
 var CARD_STATUS = PAYMENT.querySelector('.payment__card-status');
 
+
+// Номер карты
+CARD_NUMBER.addEventListener('invalid', function () {
+  var validityText = '';
+  if (CARD_NUMBER.validity.tooShort || CARD_NUMBER.validity.tooLong) {
+    validityText = 'Номер должен состоять из 16 цифр';
+  } else if (CARD_NUMBER.validity.valueMissing) {
+    validityText = 'Обязательное поле';
+  } else {
+    validityText = '';
+  }
+
+  CARD_NUMBER.setCustomValidity(validityText);
+});
+
+// Дата
+CARD_DATE.addEventListener('invalid', function () {
+  var validityText = '';
+  if (CARD_DATE.validity.tooShort || CARD_DATE.validity.tooLong) {
+    validityText = 'Дата карты должен состоять в формате MM/ГГ';
+  } else if (CARD_DATE.validity.valueMissing) {
+    validityText = 'Обязательное поле';
+  } else {
+    validityText = '';
+  }
+  CARD_DATE.setCustomValidity(validityText);
+});
+
+// CVV
+CARD_CVC.addEventListener('invalid', function () {
+  var validityText = '';
+  if (CARD_CVC.validity.tooShort || CARD_CVC.validity.tooLong) {
+    validityText = 'Номер должен состоять из трёх цифр';
+  } else if (CARD_CVC.validity.valueMissing) {
+    validityText = 'Обязательное поле';
+  } else {
+    validityText = '';
+  }
+  CARD_CVC.setCustomValidity(validityText);
+});
+
+// Имя держателя
+CARD_HOLDER.addEventListener('invalid', function (evt) {
+  evt.preventDefault();
+  var validityText = '';
+  if (CARD_HOLDER.validity.patternMismatch) {
+    validityText = 'Данное поле заполняется только латинскими буквами';
+  } else if (CARD_HOLDER.validity.valueMissing) {
+    validityText = 'Обязательное поле';
+  } else {
+    validityText = '';
+  }
+  CARD_HOLDER.setCustomValidity(validityText);
+});
+
 // Проверка ввода информации для карты
 // Luna
 var checkNumberCard = function (number) {
   var COUNT_CARD = 16;
   var arr = [];
+
   var charLess = number.replace(/\D/g, '');
   if (number.length === 0) {
-    return;
+    CARD_NUMBER.setCustomValidity('Обязательное поле для заполнения');
+  }
+  if (number.length < COUNT_CARD) {
+    CARD_NUMBER.setCustomValidity('Номер должен состоять из 16 цифр');
   }
   if (isNaN(number.length)) {
-    CARD_NUMBER.setCustomValidity('Проверьте правильность ввода данных');
-    return;
+    CARD_NUMBER.setCustomValidity('Проверьте правильность ввода данных 1');
   }
 
   if (charLess.length === COUNT_CARD) {
+    CARD_NUMBER.setCustomValidity('');
     for (var i = 0; i < charLess.length; i++) {
 
       if (i % 2 === 0) {
@@ -610,10 +669,10 @@ var checkNumberCard = function (number) {
         return a + b;
       });
     }
-    return !!(sum % 10);
   } else {
     CARD_NUMBER.setCustomValidity('Проверьте правильность ввода данных');
   }
+  return !!(sum % 10);
 };
 
 CARD_NUMBER.addEventListener('input', function () {
@@ -622,59 +681,8 @@ CARD_NUMBER.addEventListener('input', function () {
   }
 });
 
-// Номер карты
-CARD_NUMBER.addEventListener('blur', function () {
-  var validityText = '';
-  if (CARD_NUMBER.validity.patternMismatch === true) {
-    validityText = 'Номер карты состоит только из цифр';
-  } else if (CARD_NUMBER.validity.tooShort || CARD_NUMBER.validity.tooLong) {
-    validityText = 'Номер должен состоять из 16 цифр';
-  } else if (CARD_NUMBER.validity.valueMissing) {
-    validityText = 'Обязательное поле';
-  }
-
-  CARD_NUMBER.setCustomValidity(validityText);
-});
-
-
-// Дата
-CARD_DATE.addEventListener('blur', function () {
-  var validityText = '';
-  if (CARD_DATE.validity.patternMismatch || CARD_DATE.validity.tooShort || CARD_DATE.validity.tooLong) {
-    validityText = 'Дата карты должен состоять в формате MM/ГГ';
-  } else if (CARD_DATE.validity.valueMissing) {
-    validityText = 'Обязательное поле';
-  }
-  CARD_DATE.setCustomValidity(validityText);
-});
-
-// CVV
-CARD_CVC.addEventListener('invalid', function () {
-  var validityText = '';
-  if (CARD_CVC.validity.patternMismatch) {
-    validityText = 'Номер карты состоит только из цифр';
-  } else if (CARD_CVC.validity.tooShort || CARD_CVC.validity.tooLong) {
-    validityText = 'Номер должен состоять из трёх цифр';
-  } else if (CARD_CVC.validity.valueMissing) {
-    validityText = 'Обязательное поле';
-  }
-  CARD_CVC.setCustomValidity(validityText);
-});
-
-// Имя держателя
-CARD_HOLDER.addEventListener('invalid', function (evt) {
-  evt.preventDefault();
-  var validityText = '';
-
-  if (CARD_HOLDER.validity.patternMismatch) {
-    validityText = 'Данное поле заполняется только латинскими буквами';
-  } else if (CARD_HOLDER.validity.valueMissing) {
-    validityText = 'Обязательное поле';
-  }
-  CARD_HOLDER.setCustomValidity(validityText);
-});
-
 PAYMENT_CARD_BLOCK.addEventListener('input', function () {
+
   var status = checkNumberCard(CARD_NUMBER.value);
   var valid = CARD_NUMBER.validity.valid && CARD_DATE.validity.valid && CARD_CVC.validity.valid && CARD_HOLDER.validity.valid && status;
   CARD_STATUS.textContent = valid === true ? 'Успешно' : 'Что-то пошло не так';
