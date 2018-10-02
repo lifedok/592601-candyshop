@@ -577,10 +577,11 @@ var CARD_DATE = PAYMENT.querySelector('#payment__card-date');
 var CARD_CVC = PAYMENT.querySelector('#payment__card-cvc');
 var CARD_HOLDER = PAYMENT.querySelector('#payment__cardholder');
 var CARD_STATUS = PAYMENT_CARD.querySelector('.payment__card-status');
+
+
 // Проверка ввода информации для карты
 // Номер карты
-CARD_NUMBER.addEventListener('invalid', function (evt) {
-  evt.preventDefault();
+CARD_NUMBER.addEventListener('invalid', function () {
   var validityText = '';
 
   if (CARD_NUMBER.validity.patternMismatch) {
@@ -594,9 +595,9 @@ CARD_NUMBER.addEventListener('invalid', function (evt) {
   CARD_NUMBER.setCustomValidity(validityText);
 });
 
+
 // Дата
-CARD_DATE.addEventListener('invalid', function (evt) {
-  evt.preventDefault();
+CARD_DATE.addEventListener('invalid', function () {
   var validityText = '';
   if (CARD_DATE.validity.patternMismatch || CARD_DATE.validity.tooShort || CARD_DATE.validity.tooLong) {
     validityText = 'Дата карты должен состоять в формате MM/ГГ';
@@ -607,10 +608,8 @@ CARD_DATE.addEventListener('invalid', function (evt) {
 });
 
 // CVV
-CARD_CVC.addEventListener('invalid', function (evt) {
-  evt.preventDefault();
+CARD_CVC.addEventListener('invalid', function () {
   var validityText = '';
-
   if (CARD_CVC.validity.patternMismatch) {
     validityText = 'Номер карты состоит только из цифр';
   } else if (CARD_CVC.validity.tooShort || CARD_CVC.validity.tooLong) {
@@ -670,10 +669,14 @@ var checkNumberCard = function (number) {
     CARD_NUMBER.setCustomValidity('Is not valid number');
   }
 };
-PAYMENT_CARD_BLOCK.addEventListener('change', function () {
+PAYMENT_CARD_BLOCK.addEventListener('input', function () {
   var status = checkNumberCard(CARD_NUMBER.value);
   var valid = CARD_NUMBER.validity.valid && CARD_DATE.validity.valid && CARD_CVC.validity.valid && CARD_HOLDER.validity.valid && status;
   CARD_STATUS.textContent = valid === true ? 'Успешно' : 'Что-то пошло не так';
 });
 
-
+CARD_NUMBER.addEventListener('input', function () {
+  if (!checkNumberCard(CARD_NUMBER.value)) {
+    CARD_STATUS.setCustomValidity('Проверьте введёное число');
+  }
+});
