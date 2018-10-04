@@ -3,18 +3,13 @@
 (function () {
   // проверка валидности карты
   var PAYMENT = window.util.tabs.PAYMENT;
-  var PAYMENT_CARD = window.util.tabs.PAYMENT_CARD;
-
   var CARD_NUMBER = PAYMENT.querySelector('#payment__card-number');
   var CARD_DATE = PAYMENT.querySelector('#payment__card-date');
   var CARD_CVC = PAYMENT.querySelector('#payment__card-cvc');
   var CARD_HOLDER = PAYMENT.querySelector('#payment__cardholder');
   var CARD_STATUS = PAYMENT.querySelector('.payment__card-status');
-  var CARD_WRAP = PAYMENT.querySelector('.payment__card-wrap');
 
-  if (PAYMENT_CARD.checked === false) {
-    CARD_WRAP.innerHTML = '';
-  }
+
   // Номер карты
   CARD_NUMBER.addEventListener('invalid', function () {
     var validityText = '';

@@ -24,7 +24,7 @@
   // ПЕРЕКЛЮЧАТЕЛЬ ТАБОВ ОПЛАТЫ
   // Привязаться к id таба
   var PAYMENT = window.util.tabs.PAYMENT;
-  var PAYMENT_CARD = window.util.tabs.PAYMENT_CARD;
+  var PAYMENT_CARD = PAYMENT.querySelector('#payment__card');
   var PAYMENT_CASH = PAYMENT.querySelector('#payment__cash');
   var PAYMENT_CARD_BLOCK = PAYMENT.querySelector('.payment__card-wrap');
   var PAYMENT_CASH_BLOCK = PAYMENT.querySelector('.payment__cash-wrap');

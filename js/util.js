@@ -5,7 +5,6 @@
   var basketGoods = []; // массив товаров в корзине
 
   var PAYMENT = document.querySelector('.payment');
-  var PAYMENT_CARD = PAYMENT.querySelector('#payment__card');
   var PAYMENT_CARD_BLOCK = PAYMENT.querySelector('.payment__card-wrap');
 
   window.util = {
@@ -15,7 +14,6 @@
     },
     tabs: {
       PAYMENT: PAYMENT,
-      PAYMENT_CARD: PAYMENT_CARD,
       PAYMENT_CARD_BLOCK: PAYMENT_CARD_BLOCK
     }
   };
