@@ -3,23 +3,6 @@
 var basketGoods = window.util.product.basketGoods; // массив товаров
 var goods = window.util.product.goods; // массив товаров
 
-var declination = function (number, first, second, third) {
-  var num = Math.abs(number);
-  var string;
-  num %= 10;
-  if (num === 1) {
-    string = ' ' + first;
-  }
-  if (num >= 2 && num <= 4) {
-    string = ' ' + second;
-  }
-  num %= 100;
-  if (num >= 5 && num <= 20) {
-    string = ' ' + third;
-  }
-  return string;
-};
-
 // Дополнительные поля для элементов в корзине
 var basketExtraValue = function () {
   var extraValue = {
@@ -51,7 +34,7 @@ var changeHeaderForSelectedBasket = function () {
   if (selectBasket.selected > 0) {
     HEADER_BASKET.innerHTML = 'В корзине '
       + selectBasket.selected
-      + declination(selectBasket.selected, 'товар', 'товара', 'товаров')
+      + window.declination(selectBasket.selected, 'товар', 'товара', 'товаров')
       + ' на сумму ' + selectBasket.price + ' ₽';
   } else {
     HEADER_BASKET.innerHTML = 'В корзине ничего нет';
