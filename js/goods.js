@@ -643,7 +643,17 @@ var filter = function () {
   BTN_RIGHT.style.background = 'red';
   BTN_RANGE.style.zIndex = '1';
   var widthFilter = RANGE_FILTER.offsetWidth;
-  var widthBtn = BTN_RANGE.offsetWidth;
+
+  var relationPrice = function (value) {
+    return Math.round(value * MAX_PRICE / widthFilter);
+  };
+
+  // default price
+  var positionLeftPin = BTN_LEFT.offsetLeft;
+  PRICE_MIN.textContent = relationPrice(positionLeftPin);
+  var positionRightPin = BTN_RIGHT.offsetLeft;
+  PRICE_MAX.textContent = relationPrice(positionRightPin);
+
 
   BTN_LEFT.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -656,9 +666,10 @@ var filter = function () {
       var shiftLeftBtn = BTN_LEFT.offsetLeft - shiftCoordinateX; // положение левого пина
       var currentPositionRightPin = BTN_RIGHT.offsetLeft; // текущее положение правого пина
 
-      if (checkMousePosition(shiftLeftBtn) > currentPositionRightPin - widthBtn) {
-        BTN_LEFT.style.left = currentPositionRightPin - widthBtn + 'px';
+      if (checkMousePosition(shiftLeftBtn) > currentPositionRightPin) {
+        BTN_LEFT.style.left = currentPositionRightPin + 'px';
         RANGE_FILL_LINE.style.left = currentPositionRightPin + 'px';
+        PRICE_MIN.textContent = relationPrice(checkMousePosition(currentPositionRightPin));
       } else {
         BTN_LEFT.style.left = checkMousePosition(shiftLeftBtn) + 'px';
         RANGE_FILL_LINE.style.left = checkMousePosition(shiftLeftBtn) + 'px';
@@ -685,12 +696,12 @@ var filter = function () {
       var shiftRightBtn = BTN_RIGHT.offsetLeft - shiftCoordinateX; // положение правого пина
       var currentPositionLeftPin = BTN_LEFT.offsetLeft; // текущее положение левого пина
 
-      if (checkMousePosition(shiftRightBtn) < currentPositionLeftPin + widthBtn) {
-        BTN_RIGHT.style.left = currentPositionLeftPin + widthBtn + 'px';
+      if (checkMousePosition(shiftRightBtn) < currentPositionLeftPin) {
+        BTN_RIGHT.style.left = currentPositionLeftPin + 'px';
       } else {
         BTN_RIGHT.style.left = checkMousePosition(shiftRightBtn) + 'px';
         RANGE_FILL_LINE.style.right = widthFilter - checkMousePosition(shiftRightBtn) + 'px';
-        PRICE_MAX.textContent = relationPrice(checkMousePosition(shiftRightBtn) + widthBtn);
+        PRICE_MAX.textContent = relationPrice(checkMousePosition(shiftRightBtn));
       }
     };
 
@@ -705,12 +716,9 @@ var filter = function () {
   var checkMousePosition = function (value) {
     if (value < 0) {
       value = 0;
-    } else if (value > widthFilter - widthBtn) {
-      value = widthFilter - widthBtn;
+    } else if (value > widthFilter) {
+      value = widthFilter;
     }
     return value;
-  };
-  var relationPrice = function (value) {
-    return Math.round(value * MAX_PRICE / widthFilter);
   };
 }; filter();
