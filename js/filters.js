@@ -13,9 +13,7 @@
   var PRICE_MAX = RANGE_PRICES.querySelector('.range__price--max');
 
   BTN_LEFT.style.cursor = 'pointer';
-  BTN_LEFT.style.background = 'green';
   BTN_RIGHT.style.cursor = 'pointer';
-  BTN_RIGHT.style.background = 'red';
   BTN_RANGE.style.zIndex = '1';
   var widthFilter = RANGE_FILTER.offsetWidth;
 
