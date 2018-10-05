@@ -8,21 +8,42 @@
   CLOSE_MODAL_ERROR.style.cursor = 'pointer';
   CLOSE_MODAL_SUCCESS.style.cursor = 'pointer';
 
-  var escKeycode = window.escKeycode;
+  var escKeycode = window.util.keycode.ESC_KEYCODE;
+  var enterKeycode = window.util.keycode.ENTER_KEYCODE;
 
-  var onCloseErrorModal = function (evt) {
-    if (evt.keyCode === escKeycode || evt.target.className === CLOSE_MODAL_ERROR) {
-      MODAL_ERROR.classList.add('modal--hidden');
-      document.removeEventListener('keydown', onCloseErrorModal);
+  var onCloseModalEscPress = function (evt) {
+    if (evt.keyCode === escKeycode) {
+      onCloseErrorModal();
+      onCloseSuccessModal();
     }
   };
 
-  var onCloseSuccessModal = function (evt) {
-    if (evt.keyCode === escKeycode || evt.target.className === CLOSE_MODAL_SUCCESS) {
-      MODAL_SUCCESS.classList.add('modal--hidden');
-      document.removeEventListener('keydown', onCloseSuccessModal);
-    }
+  var onCloseErrorModal = function () {
+    MODAL_ERROR.classList.add('modal--hidden');
+    document.removeEventListener('keydown', onCloseModalEscPress);
   };
+  var onCloseSuccessModal = function () {
+    MODAL_SUCCESS.classList.add('modal--hidden');
+    document.removeEventListener('keydown', onCloseModalEscPress);
+  };
+
+  MODAL_ERROR.addEventListener('click', function () {
+    onCloseErrorModal();
+  });
+  MODAL_SUCCESS.addEventListener('click', function () {
+    onCloseSuccessModal();
+  });
+
+  MODAL_ERROR.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === enterKeycode) {
+      onCloseErrorModal();
+    }
+  });
+  MODAL_SUCCESS.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === enterKeycode) {
+      onCloseSuccessModal();
+    }
+  });
   window.modals = {
     MODAL_ERROR: MODAL_ERROR,
     MODAL_SUCCESS: MODAL_SUCCESS,

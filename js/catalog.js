@@ -36,10 +36,12 @@
     if (selectBasket.selected > 0) {
       HEADER_BASKET.innerHTML = 'В корзине '
       + selectBasket.selected
-      + window.declination(selectBasket.selected, 'товар', 'товара', 'товаров')
+      + window.util.declination(selectBasket.selected, 'товар', 'товара', 'товаров')
       + ' на сумму ' + selectBasket.price + ' ₽';
     } else {
       HEADER_BASKET.innerHTML = 'В корзине ничего нет';
+      BASKET_GOODS_CARDS.innerHTML = window.util.cardEmpty;
+      basketGoods = [];
     }
   };
 
@@ -175,7 +177,6 @@
 
   var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
   var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
-  var GOODS_CARD_EMPTY = document.querySelector('.goods__card-empty');
 
   var successHandler = function (goodsList) {
     var fragment = document.createDocumentFragment();
@@ -195,8 +196,6 @@
 
   var onHiddenEmptyBlock = function () {
     BASKET_GOODS_CARDS.innerHTML = '';
-    BASKET_GOODS_CARDS.classList.remove('goods__cards--empty');
-    GOODS_CARD_EMPTY.classList.add('visually-hidden');
   };
   var renderBasketList = function () {
     onHiddenEmptyBlock();
@@ -265,7 +264,7 @@
     // удалить элемент из массива basketGoods
       basketGoods.length = basketGoods.length - 1;
       if (basketGoods.length === 0) {
-        GOODS_CARD_EMPTY.classList.remove('visually-hidden');
+        BASKET_GOODS_CARDS.innerHTML = window.util.cardEmpty;
       }
     });
 
@@ -294,6 +293,7 @@
             changeHeaderForSelectedBasket();
           } else if (itemElement.selected === itemElement.allInStock) {
             changeHeaderForSelectedBasket();
+            BASKET_GOODS_CARDS.innerHTML = window.util.cardEmpty;
           }
         }
       });
