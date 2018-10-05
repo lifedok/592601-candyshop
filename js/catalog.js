@@ -155,8 +155,6 @@
           disabledItem(itemId);
         }
       }
-      console.log(' ==> basketGoods', basketGoods);
-      console.log(' ==> goods', goods);
 
       renderBasketList();
     });
@@ -203,7 +201,6 @@
   var renderBasketList = function () {
     onHiddenEmptyBlock();
     for (var i = 0; i < basketGoods.length; i++) {
-      console.log('basketGoods[i]', basketGoods[i]);
       renderBasketItem(basketGoods[i]);
     }
 
@@ -249,14 +246,10 @@
   var renderBasketItem = function (item) {
     var catalogBasketCard = CARD_BASKET_TEMPLATE.cloneNode(true);
     var closeButton = catalogBasketCard.querySelector('.card-order__close');
-    console.log('item.name', item.name);
 
     var index = null;
     for (var i = 0; i < goods.length; i++) {
-      if (goods[i].name === item.name) {
-        console.log('goods[i].name', goods[i].name);
-        console.log('index', index);
-
+      if (goods[i].name + goods[i].price === item.id) {
         index = i;
         break;
       }
@@ -279,27 +272,28 @@
     var btnDecrease = catalogBasketCard.querySelector('.card-order__btn--decrease');
     var btnIncrease = catalogBasketCard.querySelector('.card-order__btn--increase');
 
+    // Увеличение на один заказа в корзине
     btnIncrease.addEventListener('click', function () {
       basketGoods.forEach(function (itemElement) {
-        console.log('itemElement', itemElement.id, index);
-        if (itemElement.id === index) {
+        if (itemElement.id === goods[index].name + goods[index].price) {
           if (itemElement.selected < itemElement.allInStock) {
             itemElement.selected += 1;
             changeHeaderForSelectedBasket();
           } else if (itemElement.selected === itemElement.allInStock) {
-          // console.log('max selected');
+            changeHeaderForSelectedBasket();
           }
         }
       });
     });
+    // Уменьшение на один заказа в корзине
     btnDecrease.addEventListener('click', function () {
       basketGoods.forEach(function (itemElement) {
-        if (itemElement.id === index) {
+        if (itemElement.id === goods[index].name + goods[index].price) {
           if (itemElement.selected < itemElement.allInStock) {
             itemElement.selected -= 1;
             changeHeaderForSelectedBasket();
           } else if (itemElement.selected === itemElement.allInStock) {
-          // console.log('min selected');
+            changeHeaderForSelectedBasket();
           }
         }
       });
