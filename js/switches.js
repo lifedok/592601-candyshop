@@ -40,12 +40,4 @@
     PAYMENT_CARD_BLOCK.classList.remove('visually-hidden');
     PAYMENT_CASH_BLOCK.classList.add('visually-hidden');
   });
-
-  // Переключатель отображения состава
-  document.querySelectorAll('.card__main').forEach(function (item) {
-    item.querySelector('.card__btn-composition').addEventListener('click', function (evt) {
-      evt.preventDefault();
-      item.querySelector('.card__composition').classList.toggle('card__composition--hidden');
-    });
-  });
 })();

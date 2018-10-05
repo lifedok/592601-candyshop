@@ -7,6 +7,8 @@
   var PAYMENT = document.querySelector('.payment');
   var PAYMENT_CARD_BLOCK = PAYMENT.querySelector('.payment__card-wrap');
 
+  var ESC_KEYCODE = 27;
+
   window.util = {
     product: {
       goods: goods,
@@ -34,4 +36,6 @@
     }
     return string;
   };
+
+  window.escKeycode = ESC_KEYCODE;
 })();
