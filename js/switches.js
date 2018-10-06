@@ -3,7 +3,11 @@
 (function () {
   var PAYMENT = window.util.tabs.PAYMENT;
   var TOGGLE_BTN_LABEL = document.querySelectorAll('.toggle-btn__label');
+  var INPUT_BTN_LABE = document.querySelectorAll('.input-btn__label');
   TOGGLE_BTN_LABEL.forEach(function (item) {
+    item.style.cursor = 'pointer';
+  });
+  INPUT_BTN_LABE.forEach(function (item) {
     item.style.cursor = 'pointer';
   });
 
@@ -84,5 +88,35 @@
     DELIVERY_STORE_BLOCK.classList.add('visually-hidden');
     DELIVERY_COURIER_BLOCK.classList.remove('visually-hidden');
     activeCourierFields();
+  });
+
+  // переключатель места доставки
+  var mapPlace = [
+    'academicheskaya',
+    'chernishevskaya',
+    'frunzenskaya',
+    'petrogradskaya',
+    'proletarskaya',
+    'prosvesheniya',
+    'rechka',
+    'tehinstitute',
+    'vasileostrovskaya',
+    'vostaniya'
+  ];
+  var DELIVERY_STORE_LIST = document.querySelector('.deliver__store-list');
+  var DELIVER_MAP = document.querySelector('.deliver__store-map-wrap');
+  var MAP_IMAGE = DELIVER_MAP.querySelector('.deliver__store-map-img');
+  var DELIVERY_STORE_ITEM = DELIVERY_STORE_LIST.querySelectorAll('.input-btn__input');
+
+  DELIVERY_STORE_ITEM.forEach(function (element) {
+    element.addEventListener('click', function (evt) {
+      evt.stopPropagation();
+      element.style.cursor = 'pointer';
+      for (var i = 0; i < mapPlace.length; i++) {
+        if (evt.target.value === mapPlace[i]) {
+          MAP_IMAGE.src = 'img/map/' + mapPlace[i] + '.jpg';
+        }
+      }
+    });
   });
 })();
