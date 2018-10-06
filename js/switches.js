@@ -2,6 +2,10 @@
 
 (function () {
   var PAYMENT = window.util.tabs.PAYMENT;
+  var TOGGLE_BTN_LABEL = document.querySelectorAll('.toggle-btn__label');
+  TOGGLE_BTN_LABEL.forEach(function (item) {
+    item.style.cursor = 'pointer';
+  });
 
   // Переключатель способов оплаты
   var CARD_NUMBER_FIELD = PAYMENT.querySelector('#payment__card-number');

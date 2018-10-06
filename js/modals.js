@@ -44,10 +44,13 @@
       onCloseSuccessModal();
     }
   });
+
+
   window.modals = {
     MODAL_ERROR: MODAL_ERROR,
     MODAL_SUCCESS: MODAL_SUCCESS,
     CLOSE_MODAL_ERROR: CLOSE_MODAL_ERROR,
-    CLOSE_MODAL_SUCCESS: CLOSE_MODAL_SUCCESS
+    CLOSE_MODAL_SUCCESS: CLOSE_MODAL_SUCCESS,
+    onCloseModalEscPress: onCloseModalEscPress
   };
 })();
