@@ -134,7 +134,7 @@
     ERROR_MESSAGE.textContent = errorMessage;
   };
   SEND_ORDER.addEventListener('submit', function (evt) {
-    window.backend.send(new FormData(SEND_ORDER), onSuccessModal, onErrorModal);
+    window.backend.sendData(new FormData(SEND_ORDER), onSuccessModal, onErrorModal);
     evt.preventDefault();
   });
 })();
