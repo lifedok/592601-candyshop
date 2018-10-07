@@ -167,11 +167,14 @@
 
   var disabledItem = function (id) {
     document.querySelectorAll('.catalog__card').forEach(function (item, index) {
-      if (index === id) {
-        var cardBtn = item.querySelector('.card__btn');
-        cardBtn.style.background = '#e8e8e8';
-        cardBtn.style.cursor = 'default';
-      }
+      var cardBtn = item.querySelector('.card__btn');
+      cardBtn.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        if (id === goods[index].name + goods[index].price) {
+          cardBtn.style.background = '#e8e8e8';
+          cardBtn.style.cursor = 'default';
+        }
+      });
     });
   };
 
@@ -293,7 +296,6 @@
             changeHeaderForSelectedBasket();
           } else if (itemElement.selected === itemElement.allInStock) {
             changeHeaderForSelectedBasket();
-            BASKET_GOODS_CARDS.innerHTML = window.util.cardEmpty;
           }
         }
       });
