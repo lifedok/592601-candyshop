@@ -317,4 +317,9 @@
     BASKET_GOODS_CARDS.removeChild(targetCard);
     changeHeaderForSelectedBasket();
   });
+
+  window.catalog = {
+    basketGoods: basketGoods,
+    goods: goods
+  };
 })();

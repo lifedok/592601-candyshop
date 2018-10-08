@@ -26,7 +26,7 @@
       <aside class="catalog__sidebar">
         <form action="/">
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-type">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="food-type" value="icecream" type="checkbox" id="filter-icecream" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-icecream">Мороженное</label>
@@ -58,7 +58,7 @@
             </li>
           </ul>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-constituent">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="food-property" value="sugar-free" type="checkbox" id="filter-sugar-free" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-sugar-free">Без сахара</label>
@@ -92,7 +92,7 @@
             </div>
           </section>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-favorite">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="mark" value="favorite" type="checkbox" id="filter-favorite" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-favorite">Только избранное</label>
@@ -106,7 +106,7 @@
             </li>
           </ul>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-rating">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--radio" name="sort" value="popular" type="radio" id="filter-popular" checked>
               <label class="input-btn__label input-btn__label--radio" for="filter-popular">Сначала популярные</label>
