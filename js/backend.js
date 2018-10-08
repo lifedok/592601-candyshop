@@ -32,7 +32,11 @@
   };
 
   window.backend = {
-    loadData: sendRequest('GET', URL_LOAD),
-    sendData: sendRequest('POST', URL_SEND)
+    loadData: function (onLoad, onError) {
+      sendRequest('GET', URL_LOAD, onLoad, onError);
+    },
+    sendData: function (onLoad, onError, data) {
+      sendRequest('POST', URL_SEND, onLoad, onError, data);
+    }
   };
 })();

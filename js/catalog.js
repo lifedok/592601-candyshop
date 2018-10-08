@@ -194,7 +194,7 @@
     window.modals.MODAL_ERROR.classList.remove('modal--hidden');
     document.body.insertAdjacentElement('afterbegin');
   };
-  window.backend.loadData(_, _, successHandler, errorHandler);
+  window.backend.loadData(successHandler, errorHandler);
 
 
   var onHiddenEmptyBlock = function () {
