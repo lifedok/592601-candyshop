@@ -3,8 +3,8 @@
 (function () {
   var URL_LOAD = 'https://js.dump.academy/candyshop/data';
   var URL_SEND = 'https://js.dump.academy/candyshop';
-  var timeout = 10000;
-  var statusSuccess = 200;
+  var TIMEOUT = 10000;
+  var STATUS_SUCCESS = 200;
 
   var sendRequest = function (method, url, onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
@@ -16,7 +16,7 @@
 
   var messageInfo = function (xhr, load, error) {
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusSuccess) {
+      if (xhr.status === STATUS_SUCCESS) {
         load(xhr.response);
       } else {
         error('Статус ответа ' + xhr.status + ' ' + xhr.statusText);
@@ -28,7 +28,7 @@
     xhr.addEventListener('timeout', function () {
       error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = timeout;
+    xhr.timeout = TIMEOUT;
   };
 
   window.backend = {
