@@ -6,18 +6,11 @@
   var timeout = 10000;
   var statusSuccess = 200;
 
-  var loadData = function (onLoad, onError) {
+  var sendRequest = function (method, url, onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     messageInfo(xhr, onLoad, onError);
-    xhr.open('GET', URL_LOAD);
-    xhr.send();
-  };
-  var sendData = function (data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    messageInfo(xhr, onLoad, onError);
-    xhr.open('POST', URL_SEND);
+    xhr.open(method, url);
     xhr.send(data);
   };
 
@@ -39,7 +32,7 @@
   };
 
   window.backend = {
-    loadData: loadData,
-    sendData: sendData
+    loadData: sendRequest('GET', URL_LOAD),
+    sendData: sendRequest('POST', URL_SEND)
   };
 })();
