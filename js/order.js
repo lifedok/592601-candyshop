@@ -119,4 +119,22 @@
     var valid = CARD_NUMBER.validity.valid && CARD_DATE.validity.valid && CARD_CVC.validity.valid && CARD_HOLDER.validity.valid && status;
     CARD_STATUS.textContent = valid === true ? 'Успешно' : 'Что-то пошло не так';
   });
+
+
+  var SEND_ORDER = document.querySelector('.buy').querySelector('form');
+  var onSuccessModal = function () {
+    window.modals.MODAL_SUCCESS.classList.remove('modal--hidden');
+    document.addEventListener('keydown', window.modals.onCloseModalEscPress);
+    SEND_ORDER.reset();
+  };
+  var onErrorModal = function (errorMessage) {
+    window.modals.MODAL_ERROR.classList.remove('modal--hidden');
+    document.addEventListener('keydown', window.modals.onCloseModalEscPress);
+    var ERROR_MESSAGE = document.querySelector('.error-message');
+    ERROR_MESSAGE.textContent = errorMessage;
+  };
+  SEND_ORDER.addEventListener('submit', function (evt) {
+    window.backend.sendData(onSuccessModal, onErrorModal, new FormData(SEND_ORDER));
+    evt.preventDefault();
+  });
 })();

@@ -26,7 +26,7 @@
       <aside class="catalog__sidebar">
         <form action="/">
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-type">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="food-type" value="icecream" type="checkbox" id="filter-icecream" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-icecream">Мороженное</label>
@@ -58,7 +58,7 @@
             </li>
           </ul>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-constituent">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="food-property" value="sugar-free" type="checkbox" id="filter-sugar-free" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-sugar-free">Без сахара</label>
@@ -92,7 +92,7 @@
             </div>
           </section>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-favorite">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--checkbox" name="mark" value="favorite" type="checkbox" id="filter-favorite" >
               <label class="input-btn__label input-btn__label--checkbox" for="filter-favorite">Только избранное</label>
@@ -106,7 +106,7 @@
             </li>
           </ul>
 
-          <ul class="catalog__filter">
+          <ul class="catalog__filter" id="catalog__filter-rating">
             <li class="input-btn">
               <input class="input-btn__input visually-hidden input-btn__input--radio" name="sort" value="popular" type="radio" id="filter-popular" checked>
               <label class="input-btn__label input-btn__label--radio" for="filter-popular">Сначала популярные</label>
@@ -377,22 +377,38 @@
 
                 <ul class="deliver__address-entry-fields">
                   <li class="text-input deliver__street">
-                    <input type="text" class="text-input__input" name="deliver-street" id="deliver__street" placeholder="Улица">
+                    <input type="text"
+                           class="text-input__input"
+                           name="deliver-street"
+                           id="deliver__street"
+                           placeholder="Улица" required>
                     <label class="text-input__label" for="deliver__street">Улица</label>
                   </li>
 
                   <li class="text-input deliver__house">
-                    <input type="text" class="text-input__input" name="deliver-house" id="deliver__house" placeholder="Дом">
+                    <input type="text"
+                           class="text-input__input"
+                           name="deliver-house"
+                           id="deliver__house"
+                           placeholder="Дом" required>
                     <label class="text-input__label" for="deliver__house">Дом</label>
                   </li>
 
                   <li class="text-input deliver__floor">
-                    <input type="text" class="text-input__input" name="deliver-floor" id="deliver__floor" placeholder="Эт.">
+                    <input type="text"
+                           class="text-input__input"
+                           name="deliver-floor"
+                           id="deliver__floor"
+                           placeholder="Эт.">
                     <label class="text-input__label" for="deliver__floor">Эт.</label>
                   </li>
 
                   <li class="text-input deliver__room">
-                    <input type="text" class="text-input__input" name="deliver-room" id="deliver__room" placeholder="Кв.">
+                    <input type="text"
+                           class="text-input__input"
+                           name="deliver-room"
+                           id="deliver__room"
+                           placeholder="Кв." required>
                     <label class="text-input__label" for="deliver__room">Кв.</label>
                   </li>
                 </ul>
@@ -441,16 +457,16 @@
     </div>
   </footer>
 
-  <section class="modal modal--hidden">
+  <section class="modal modal--hidden modal--error">
     <div class="modal__inner">
       <button class="modal__close" type="button">Закрыть окно</button>
       <h3 class="modal__title">Произошла ошибка!</h3>
-      <p class="modal__message">Код ошибки: 404.</p>
+      <p class="modal__message error-message">Код ошибки: 404.</p>
       <p class="modal__message">Пожалуйста, перезагрузите страницу.</p>
     </div>
   </section>
 
-  <section class="modal modal--hidden">
+  <section class="modal modal--hidden modal--success">
     <div class="modal__inner">
       <button class="modal__close" type="button">Закрыть окно</button>
       <h3 class="modal__title">Данные успешно отправлены!</h3>
@@ -523,12 +539,13 @@
     </div>
   </template>
 
+  <script src="js/backend.js"></script>
   <script src="js/util.js"></script>
-  <script src="js/data.js"></script>
   <script src="js/catalog.js"></script>
   <script src="js/order.js"></script>
   <script src="js/switches.js"></script>
   <script src="js/filters.js"></script>
+  <script src="js/modals.js"></script>
 
 </body>
 </html>

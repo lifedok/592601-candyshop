@@ -13,9 +13,7 @@
   var PRICE_MAX = RANGE_PRICES.querySelector('.range__price--max');
 
   BTN_LEFT.style.cursor = 'pointer';
-  BTN_LEFT.style.background = 'green';
   BTN_RIGHT.style.cursor = 'pointer';
-  BTN_RIGHT.style.background = 'red';
   BTN_RANGE.style.zIndex = '1';
   var widthFilter = RANGE_FILTER.offsetWidth;
 
@@ -94,4 +92,15 @@
     }
     return value;
   };
+
+  // фильтра
+  var TYPE_CATALOG_FILTER = document.querySelector('#catalog__filter-type');
+  var CONSTITUENT_CATALOG_FILTER = document.querySelector('#catalog__filter-constituent');
+  var FAVORITE_CATALOG_FILTER = document.querySelector('#catalog__filter-favorite');
+  var RATING_CATALOG_FILTER = document.querySelector('#catalog__filter-rating');
+
+  TYPE_CATALOG_FILTER.querySelectorAll('.input-btn');
+  CONSTITUENT_CATALOG_FILTER.querySelectorAll('.input-btn');
+  FAVORITE_CATALOG_FILTER.querySelectorAll('.input-btn');
+  RATING_CATALOG_FILTER.querySelectorAll('.input-btn');
 })();
