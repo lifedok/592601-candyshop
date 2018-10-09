@@ -317,6 +317,18 @@
     BASKET_GOODS_CARDS.removeChild(targetCard);
     changeHeaderForSelectedBasket();
   });
+  var FILTERS_FORM = document.querySelector('.catalog__sidebar-form');
+
+  var changeCountForFilter = function () {
+    goods.forEach(function (el, i) {
+      // console.log('goods=goods', el, i);
+    });
+  };
+  changeCountForFilter();
+
+  FILTERS_FORM.addEventListener('change', function () {
+    window.util.debounce(window.filters.updateGoods(goods), 500);
+  });
 
   window.catalog = {
     basketGoods: basketGoods,

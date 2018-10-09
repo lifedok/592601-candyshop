@@ -93,14 +93,93 @@
     return value;
   };
 
-  // фильтра
-  var TYPE_CATALOG_FILTER = document.querySelector('#catalog__filter-type');
-  var CONSTITUENT_CATALOG_FILTER = document.querySelector('#catalog__filter-constituent');
-  var FAVORITE_CATALOG_FILTER = document.querySelector('#catalog__filter-favorite');
-  var RATING_CATALOG_FILTER = document.querySelector('#catalog__filter-rating');
+  var FILTERS_FORM = document.querySelector('.catalog__sidebar-form');
+
+  var TYPE_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-type');
+  var CONSTITUENT_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-constituent');
+  var FAVORITE_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-favorite');
+  var RATING_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-rating');
 
   TYPE_CATALOG_FILTER.querySelectorAll('.input-btn');
   CONSTITUENT_CATALOG_FILTER.querySelectorAll('.input-btn');
   FAVORITE_CATALOG_FILTER.querySelectorAll('.input-btn');
   RATING_CATALOG_FILTER.querySelectorAll('.input-btn');
+
+
+  // var FILTER_ICECREAM_COUNT = FILTERS_FORM.querySelector('#filter-icecream-count');
+  // var FILTER_SODA_COUNT = FILTERS_FORM.querySelector('#filter-soda-count');
+  // var FILTER_GUM_COUNT = FILTERS_FORM.querySelector('#filter-gum-count');
+  // var FILTER_MARMALADE_COUNT = FILTERS_FORM.querySelector('#filter-marmalade-count');
+  // var FILTER_MARSHMALLOWS_COUNT = FILTERS_FORM.querySelector('#filter-marshmallows-count');
+  // var FILTER_SUGAR_FREE_COUNT = FILTERS_FORM.querySelector('#filter-sugar-free-count');
+  // var FILTER_VEGETARIAN_COUNT = FILTERS_FORM.querySelector('#filter-vegetarian-count');
+  // var FILTER_GLUTEN_FREE_COUNT = FILTERS_FORM.querySelector('#filter-gluten-free-count');
+  // var FILTER_FAVORITE_COUNT = FILTERS_FORM.querySelector('#filter-favorite-count');
+  // var FILTER_AVAILABILITY_COUNT = FILTERS_FORM.querySelector('#filter-availability-count');
+
+
+  // var goods = window.catalog.goods;
+
+
+  // var itemCount = function () {
+  //   var count = 0;
+  //   console.log('goods=index', goods);
+  //
+  //   for (var i = 0; i < goods.length; i++) {
+  //     console.log('goods=index', i);
+  //
+  //   }
+  // goods.forEach(function (item, index) {
+  //
+  //   if (index.kind === 'Мороженое') {
+  //     count += 1;
+  //     FILTER_ICECREAM_COUNT.textContent = count;
+  //     console.log('FILTER_ICECREAM_COUNT', FILTER_ICECREAM_COUNT);
+  //     console.log('count', count);
+  //
+  //   }
+  // });
+  // };
+  // itemCount();
+
+
+  // фильтра
+  // console.log('FILTERS_FORM', FILTERS_FORM);
+
+  var updateGoods = function (goods) {
+
+    var filtersRules = {
+      'icecream': 'Мороженое',
+      'soda': 'Газировка',
+      'gum': 'Жевательная резинка',
+      'marmalade': 'Мармелад',
+      'marshmallows': 'Зефир'
+    };
+
+    var filteredOffers = goods.slice();
+    var CHECKBOX_FILTERS = FILTERS_FORM.querySelectorAll('input[type="checkbox"]:checked');
+    // var RADIO_FILTERS = FILTERS_FORM.querySelectorAll('input[type="radio"]:checked');
+
+    var filterByIceCream = function (el) {
+      return filteredOffers.filter(function (goodsData) {
+        // console.log('el.value', el.value, filtersRules[el.value], goodsData.kind, goodsData.kind === filtersRules[el.value]);
+        return goodsData.kind === filtersRules[el.value];
+      });
+    };
+
+    if (CHECKBOX_FILTERS !== null) {
+      CHECKBOX_FILTERS.forEach(function (filter) {
+        filteredOffers = filterByIceCream(filter);
+        // console.log('filteredOffers', filteredOffers);
+      });
+    }
+  };
+
+
+  window.filters = {
+    filtersForm: FILTERS_FORM,
+    updateGoods: function (goods) {
+      updateGoods(goods);
+    }
+  };
 })();

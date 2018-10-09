@@ -38,6 +38,23 @@
     return string;
   };
 
+
+  // var DEBOUNCE_INTERVAL = 500; // ms
+
+  window.util.debounce = function (fun, time) {
+    var lastTimeout = null;
+
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, time);
+    };
+  };
+
   window.util.keycode = {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE
