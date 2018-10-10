@@ -181,13 +181,22 @@
   var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
   var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
 
-  var successHandler = function (goodsList) {
+  var renderGoods = function (goodsList) {
+    CATALOG_CARDS.innerHTML = '';
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < goodsList.length; i++) {
-      goods.push(goodsList[i]);
       fragment.appendChild(renderItem(goodsList[i]));
     }
     CATALOG_CARDS.appendChild(fragment);
+  };
+
+
+  var successHandler = function (goodsList) {
+    for (var i = 0; i < goodsList.length; i++) {
+      goods.push(goodsList[i]);
+    }
+    renderGoods(goods);
+    changeCountForFilter();
   };
 
   var errorHandler = function () {
@@ -320,11 +329,16 @@
   var FILTERS_FORM = document.querySelector('.catalog__sidebar-form');
 
   var changeCountForFilter = function () {
-    goods.forEach(function (el, i) {
-      // console.log('goods=goods', el, i);
-    });
+    // console.log('goods==>', goods);
+    // for ()
+    // var filteredOffers = [].length;
+    // goods.forEach(function (el, ind) {
+    // console.log('el', el, ind);
+    // });
+    // filteredOffers.forEach(function (el, i) {
+    //   console.log('goods el, i', el, i);
+    // });
   };
-  changeCountForFilter();
 
   FILTERS_FORM.addEventListener('change', function () {
     window.util.debounce(window.filters.updateGoods(goods), 500);
@@ -332,6 +346,7 @@
 
   window.catalog = {
     basketGoods: basketGoods,
-    goods: goods
+    goods: goods,
+    renderGoods: renderGoods
   };
 })();

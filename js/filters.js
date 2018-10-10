@@ -156,12 +156,12 @@
       'marshmallows': 'Зефир'
     };
 
-    var filteredOffers = goods.slice();
+    var filteredOffers = [];
     var CHECKBOX_FILTERS = FILTERS_FORM.querySelectorAll('input[type="checkbox"]:checked');
     // var RADIO_FILTERS = FILTERS_FORM.querySelectorAll('input[type="radio"]:checked');
 
     var filterByIceCream = function (el) {
-      return filteredOffers.filter(function (goodsData) {
+      return goods.filter(function (goodsData) {
         // console.log('el.value', el.value, filtersRules[el.value], goodsData.kind, goodsData.kind === filtersRules[el.value]);
         return goodsData.kind === filtersRules[el.value];
       });
@@ -169,10 +169,22 @@
 
     if (CHECKBOX_FILTERS !== null) {
       CHECKBOX_FILTERS.forEach(function (filter) {
-        filteredOffers = filterByIceCream(filter);
+        var filtred = filterByIceCream(filter);
+        filtred.forEach(function (el) {
+          filteredOffers.push(el);
+        });
         // console.log('filteredOffers', filteredOffers);
       });
+    } else {
+      goods.forEach(function (el) {
+        filteredOffers.push(el);
+      });
     }
+
+
+    window.catalog.renderGoods(filteredOffers.filter(function (item) {
+      return true;
+    }));
   };
 
 
