@@ -197,6 +197,8 @@
     }
     renderGoods(goods);
     changeCountForFilter();
+    changeCountForFavorite();
+    changeCountForAvailable();
   };
 
   var errorHandler = function () {
@@ -328,16 +330,93 @@
   });
   var FILTERS_FORM = document.querySelector('.catalog__sidebar-form');
 
+
+  var FILTER_ICECREAM_COUNT = FILTERS_FORM.querySelector('#filter-icecream-count');
+  var FILTER_SODA_COUNT = FILTERS_FORM.querySelector('#filter-soda-count');
+  var FILTER_GUM_COUNT = FILTERS_FORM.querySelector('#filter-gum-count');
+  var FILTER_MARMALADE_COUNT = FILTERS_FORM.querySelector('#filter-marmalade-count');
+  var FILTER_MARSHMALLOWS_COUNT = FILTERS_FORM.querySelector('#filter-marshmallows-count');
+  var FILTER_SUGAR_FREE_COUNT = FILTERS_FORM.querySelector('#filter-sugar-free-count');
+  var FILTER_VEGETARIAN_COUNT = FILTERS_FORM.querySelector('#filter-vegetarian-count');
+  var FILTER_GLUTEN_FREE_COUNT = FILTERS_FORM.querySelector('#filter-gluten-free-count');
+  var FILTER_FAVORITE_COUNT = FILTERS_FORM.querySelector('#filter-favorite-count');
+  var FILTER_AVAILABILITY_COUNT = FILTERS_FORM.querySelector('#filter-availability-count');
+  var FILTER_RANGE_COUNT = document.querySelector('.range__count');
+
+  var countPath = function (count) {
+    return '(' + count + ')';
+  };
   var changeCountForFilter = function () {
-    // console.log('goods==>', goods);
-    // for ()
-    // var filteredOffers = [].length;
-    // goods.forEach(function (el, ind) {
-    // console.log('el', el, ind);
-    // });
-    // filteredOffers.forEach(function (el, i) {
-    //   console.log('goods el, i', el, i);
-    // });
+    var filterIcecreamCount = 0;
+    var filterSodaCount = 0;
+    var filterGumCount = 0;
+    var filterMarmaladeCount = 0;
+    var filterMarshmallowsCount = 0;
+    var filterSugarFreeCount = 0;
+    var filterVegetarianCount = 0;
+    var filterGlutenFreeCount = 0;
+    var filterPriceCount = 0;
+
+    goods.forEach(function (el) {
+      switch (el.kind) {
+        case 'Мороженое':
+          filterIcecreamCount += 1;
+          break;
+        case 'Газировка':
+          filterSodaCount += 1;
+          break;
+        case 'Жевательная резинка':
+          filterGumCount += 1;
+          break;
+        case 'Мармелад':
+          filterMarmaladeCount += 1;
+          break;
+        case 'Зефир':
+          filterMarshmallowsCount += 1;
+          break;
+      }
+
+      if (!el.nutritionFacts.sugar) {
+        filterSugarFreeCount++;
+      }
+      if (!el.nutritionFacts.gluten) {
+        filterVegetarianCount++;
+      }
+      if (el.nutritionFacts.vegetarian) {
+        filterGlutenFreeCount++;
+      }
+
+      if (el.price < window.filters.price.min || el.price > window.filters.price.max) {
+        filterPriceCount += 1;
+      }
+
+      FILTER_ICECREAM_COUNT.textContent = countPath(filterIcecreamCount);
+      FILTER_SODA_COUNT.textContent = countPath(filterSodaCount);
+      FILTER_GUM_COUNT.textContent = countPath(filterGumCount);
+      FILTER_MARMALADE_COUNT.textContent = countPath(filterMarmaladeCount);
+      FILTER_MARSHMALLOWS_COUNT.textContent = countPath(filterMarshmallowsCount);
+
+      FILTER_SUGAR_FREE_COUNT.textContent = countPath(filterSugarFreeCount);
+      FILTER_VEGETARIAN_COUNT.textContent = countPath(filterVegetarianCount);
+      FILTER_GLUTEN_FREE_COUNT.textContent = countPath(filterGlutenFreeCount);
+
+      FILTER_RANGE_COUNT.textContent = countPath(filterPriceCount);
+    });
+  };
+
+  var changeCountForFavorite = function () {
+    var filterAvailabilityCount = 0;
+    FILTER_FAVORITE_COUNT.textContent = countPath(filterAvailabilityCount);
+  };
+
+  var changeCountForAvailable = function () {
+    var filterFavoriteCount = 0;
+    goods.forEach(function (el) {
+      if (el.amount > 0) {
+        filterFavoriteCount++;
+      }
+    });
+    FILTER_AVAILABILITY_COUNT.textContent = countPath(filterFavoriteCount);
   };
 
   FILTERS_FORM.addEventListener('change', function () {
