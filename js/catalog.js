@@ -108,8 +108,16 @@
 
     // Добавление выбранного товара в избранное
     var btnFavorite = catalogCardTemplate.querySelector('.card__btn-favorite');
+
+    if (item.isFavorite) {
+      btnFavorite.classList.add('card__btn-favorite--selected');
+    }
+
     btnFavorite.addEventListener('click', function (evt) {
       evt.preventDefault();
+      item.isFavorite = !item.isFavorite;
+      // console.log('EVT', item, item.isFavorite);
+
       btnFavorite.classList.toggle('card__btn-favorite--selected');
     });
 

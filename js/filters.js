@@ -12,10 +12,15 @@
   var RANGE_PRICES = document.querySelector('.range__prices');
   var PRICE_MIN = RANGE_PRICES.querySelector('.range__price--min');
   var PRICE_MAX = RANGE_PRICES.querySelector('.range__price--max');
+  var WIDTH_BTN = BTN_RANGE.offsetWidth;
 
   BTN_LEFT.style.cursor = 'pointer';
+  BTN_LEFT.style.left = 0;
   BTN_RIGHT.style.cursor = 'pointer';
+  BTN_RIGHT.style.right = -WIDTH_BTN + 'px';
   BTN_RANGE.style.zIndex = '1';
+  RANGE_FILL_LINE.style.left = 0;
+  RANGE_FILL_LINE.style.right = 0;
   var widthFilter = RANGE_FILTER.offsetWidth;
 
   var relationPrice = function (value) {
@@ -30,6 +35,7 @@
 
   BTN_LEFT.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
+    // console.log('BTN_LEFTevt');
     var startCoordinateX = evt.clientX;
     var onMouseMoveBtnLeft = function (museEvt) {
       museEvt.preventDefault();
@@ -107,7 +113,7 @@
   RATING_CATALOG_FILTER.querySelectorAll('.input-btn');
 
 
-  var CATALOG_CARDS = document.querySelector('.catalog__cards');
+  // var CATALOG_CARDS = document.querySelector('.catalog__cards');
 
   var updateGoods = function (goods) {
 
@@ -124,20 +130,18 @@
 
     var filterByType = function (filter) {
       return goods.filter(function (goodsData) {
-        // console.log('el.value', filter.value, filtersRules[filter.value], goodsData.kind, goodsData.kind === filtersRules[filter.value]);
         return goodsData.kind === filtersRules[filter.value];
       });
     };
 
-    if (CHECKBOX_TYPE_FILTERS !== null) {
+    if (CHECKBOX_TYPE_FILTERS.length > 0) {
       CHECKBOX_TYPE_FILTERS.forEach(function (filter) {
         var filtred = filterByType(filter);
         filtred.forEach(function (el) {
           filteredType.push(el);
         });
-        // console.log('filteredOffers', filteredType);
       });
-    } else if (CHECKBOX_TYPE_FILTERS === null) {
+    } else {
       goods.forEach(function (el) {
         filteredType.push(el);
       });
@@ -145,100 +149,88 @@
 
     // фильтрация по составу
     var filteredConstituents = [];
-    var CHECKBOX_CONSTITUENT_FILTER = CONSTITUENT_CATALOG_FILTER.querySelectorAll('input[type="checkbox"]:checked');
-    var filterByConstituent = function (filter) {
-      return filteredType.filter(function (goodsData) {
-        var result;
-        if (filter.value === 'sugar-free') {
-          result = goodsData.nutritionFacts.sugar === false;
-        } else if (filter.value === 'vegetarian') {
-          result = goodsData.nutritionFacts.vegetarian === true;
-        } else if (filter.value === 'gluten-free') {
-          result = goodsData.nutritionFacts.gluten === false;
-        }
-        return result;
+    var isFilterByConstituent = function (goodsData, filterNodeList) {
+      var filters = [];
+      filterNodeList.forEach(function (filterNode) {
+        filters.push(filterNode.value);
       });
+      return filters.filter(function (filter) {
+        if (filter === 'sugar-free') {
+          return goodsData.nutritionFacts.sugar === false;
+        } else if (filter === 'vegetarian') {
+          return goodsData.nutritionFacts.vegetarian === true;
+        } else if (filter === 'gluten-free') {
+          return goodsData.nutritionFacts.gluten === false;
+        }
+        return false;
+      }).length > 0;
     };
 
-    if (CHECKBOX_CONSTITUENT_FILTER !== null) {
-      CHECKBOX_CONSTITUENT_FILTER.forEach(function (filter) {
-        // console.log('filter', filter);
-        var filtred = filterByConstituent(filter);
-        filtred.forEach(function (el) {
-          filteredConstituents.push(el);
-        });
-        // console.log('filteredOffers', filteredConstituents);
+    var CHECKBOX_CONSTITUENT_FILTER = CONSTITUENT_CATALOG_FILTER.querySelectorAll('input[type="checkbox"]:checked');
+    if (CHECKBOX_CONSTITUENT_FILTER.length > 0) {
+      filteredConstituents = filteredType.filter(function (goodsData) {
+        return isFilterByConstituent(goodsData, CHECKBOX_CONSTITUENT_FILTER);
       });
-    } else if (CONSTITUENT_CATALOG_FILTER === null) {
+    } else {
       filteredType.forEach(function (el) {
         filteredConstituents.push(el);
       });
     }
 
-
     // фильтрация по рейтингу
     var filteredFavorite = [];
-    var CHECKBOX_FAVORITE_FILTER = FAVORITE_CATALOG_FILTER.querySelectorAll('input[type="checkbox"]:checked');
-    var filterByFavorite = function (filter) {
-      return goods.filter(function (goodsData) {
+    var isFilterByFavorite = function (goodsData, filterNodeList) {
+      var filters = [];
+      filterNodeList.forEach(function (filterNode) {
+        filters.push(filterNode.value);
+      });
+      return filters.filter(function (filter) {
         var result;
-        if (filter.value === 'favorite') {
-          result = CATALOG_CARDS.querySelectorAll('.card__btn-favorite--selected');
-        } else if (filter.value === 'availability') {
+        if (filter === 'favorite') {
+          result = goodsData.isFavorite;
+        } else if (filter === 'availability') {
           result = goodsData.amount > 0;
         }
         return result;
-      });
+      }).length > 0;
     };
 
-    if (CHECKBOX_FAVORITE_FILTER !== null) {
-      CHECKBOX_FAVORITE_FILTER.forEach(function (filter) {
-        // console.log('filter', filter);
-        var filtred = filterByFavorite(filter);
-        filtred.forEach(function (el) {
-          filteredFavorite.push(el);
-        });
-        // console.log('filteredFavorite', filteredFavorite);
+
+    var CHECKBOX_FAVORITE_FILTER = FAVORITE_CATALOG_FILTER.querySelectorAll('input[type="checkbox"]:checked');
+    if (CHECKBOX_FAVORITE_FILTER.length > 0) {
+      filteredFavorite = filteredConstituents.filter(function (goodsData) {
+        return isFilterByFavorite(goodsData, CHECKBOX_FAVORITE_FILTER);
       });
-    } else if (CHECKBOX_FAVORITE_FILTER === null) {
-      goods.forEach(function (el) {
+    } else {
+      filteredConstituents.forEach(function (el) {
         filteredFavorite.push(el);
       });
     }
 
-    var RADIO_FILTERS = RATING_CATALOG_FILTER.querySelectorAll('input[type="radio"]:checked');
+    // console.log('PRICE_MIN', PRICE_MIN, PRICE_MAX);
+    // console.log('PRICE_MIN', MIN_PRICE, MAX_PRICE);
 
-    window.catalog.renderGoods(filteredType.filter(function (item) {
-      // console.log('item', item);
-      var result;
-      RADIO_FILTERS.forEach(function (filter) {
-        // console.log('filter', filter);
-        switch (filter.value) {
-          case 'popular':
-            result = item.rating.number;
-            break;
-          case 'expensive':
-            result = item.rating.number;
-            break;
-          case 'cheep':
-            result = item.rating.number;
-            break;
-          case 'rating':
-            result = item.rating.number;
-            break;
-        }
-        // if (filter.value === 'popular') {
-        //   result = item.rating.number; // вывести в порядке убывания популярности
-        // } else if (filter.value === 'expensive') {
-        //   result = item.price; // вывести в порядке убывания цены (сначало дорогие)
-        // } else if (filter.value === 'cheep') {
-        //   result = item.price; // вывести в порядке возростания цены (сначало дешёвые)
-        // } else if (filter.value === 'rating') {
-        //   result = item.rating.number; // вывести в порядке убывания рейтинга, если рейтинг совпадает, то учитывается популяроность
-        // }
-      });
 
-      return result;
+    var RADIO_FILTER = RATING_CATALOG_FILTER.querySelector('input[type="radio"]:checked');
+    window.catalog.renderGoods(filteredFavorite.filter(function (item) {
+      // return item.price >= PRICE_MIN && item.price <= PRICE_MAX;
+      return true;
+    }).sort(function (item1, item2) {
+      switch (RADIO_FILTER.value) {
+        case 'popular':
+          return item2.rating.number - item1.rating.number;
+        case 'expensive':
+          return item2.price - item1.price;
+        case 'cheep':
+          return item1.price - item2.price;
+        case 'rating':
+          if (item2.rating.value === item1.rating.value) {
+            return item2.rating.number - item1.rating.number;
+          }
+          return item2.rating.value - item1.rating.value;
+        default:
+          return -1;
+      }
     }));
   };
 
