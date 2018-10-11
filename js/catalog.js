@@ -18,7 +18,7 @@
     return extraValue;
   };
 
-
+  var EMPTY_FILTER_TEMPLATE = document.querySelector('#empty-filters');
   var CARD_TEMPLATE = document.querySelector('#card').content;
   var CATALOG_CARDS = document.querySelector('.catalog__cards');
   var CATALOG_LOAD = document.querySelector('.catalog__load');
@@ -188,6 +188,7 @@
 
   var CARD_BASKET_TEMPLATE = document.querySelector('#card-order').content;
   var BASKET_GOODS_CARDS = document.querySelector('.goods__cards');
+  var EMPTY_FILTER = EMPTY_FILTER_TEMPLATE.content.querySelector('.catalog__empty-filter');
 
   var renderGoods = function (goodsList) {
     CATALOG_CARDS.innerHTML = '';
@@ -207,6 +208,11 @@
     changeCountForFilter();
     changeCountForFavorite();
     changeCountForAvailable();
+
+    // console.log('changeCountForFilter', changeCountForFilter());
+
+    // CATALOG_CARDS.innerHTML = '';
+    // CATALOG_CARDS.appendChild(EMPTY_FILTER);
   };
 
   var errorHandler = function () {

@@ -106,11 +106,7 @@
   var CONSTITUENT_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-constituent');
   var FAVORITE_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-favorite');
   var RATING_CATALOG_FILTER = FILTERS_FORM.querySelector('#catalog__filter-rating');
-
-  TYPE_CATALOG_FILTER.querySelectorAll('.input-btn');
-  CONSTITUENT_CATALOG_FILTER.querySelectorAll('.input-btn');
-  FAVORITE_CATALOG_FILTER.querySelectorAll('.input-btn');
-  RATING_CATALOG_FILTER.querySelectorAll('.input-btn');
+  var SHOW_ALL = document.querySelector('.catalog__submit');
 
 
   // var CATALOG_CARDS = document.querySelector('.catalog__cards');
@@ -213,8 +209,7 @@
 
     var RADIO_FILTER = RATING_CATALOG_FILTER.querySelector('input[type="radio"]:checked');
     window.catalog.renderGoods(filteredFavorite.filter(function (item) {
-      // return item.price >= PRICE_MIN && item.price <= PRICE_MAX;
-      return true;
+      return item.price >= parseInt(PRICE_MIN.innerHTML, 10) && item.price <= parseInt(PRICE_MAX.innerHTML, 10);
     }).sort(function (item1, item2) {
       switch (RADIO_FILTER.value) {
         case 'popular':
@@ -231,6 +226,10 @@
         default:
           return -1;
       }
+    }));
+
+    SHOW_ALL.addEventListener('click', (function () {
+      return window.catalog.renderGoods;
     }));
   };
 
